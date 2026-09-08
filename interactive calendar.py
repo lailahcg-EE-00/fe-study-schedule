@@ -641,7 +641,8 @@ for week in month_calendar:
 
     for day_index, display_date in enumerate(week):
 
-        with colsif display_date.month != display_month:
+            with cols[day_index]:
+            if display_date.month != display_month:
                 st.empty()
                 continue
 
