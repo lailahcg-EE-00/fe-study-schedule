@@ -562,70 +562,41 @@ st.progress(completion_percentage)
 st.markdown("---")
 
 # ============================================================
-# MONTH NAVIGATION
+# STUDY PLAN
 # ============================================================
 
-if "month_offset" not in st.session_state:
-    st.session_state.month_offset = 0
+st.markdown("## FE Study Plan")
 
-nav1, nav2, nav3 = st.columns([1, 3, 1])
+for study_date in sorted(STUDY_SCHEDULE.keys()):
 
-with nav1:
-    if st.button("◀ Previous"):
-        st.session_state.month_offset -= 1
+    day_data = STUDY_SCHEDULE[study_date]
 
-with nav3:
-    if st.button("Next ▶"):
-        st.session_state.month_offset += 1
+    st.markdown("---")
 
-base_date = datetime.date(
-    DISPLAY_YEAR,
-    DISPLAY_MONTH,
-    1
-)
-
-month_number = (
-    base_date.month
-    + st.session_state.month_offset
-)
-
-display_year = base_date.year + (
-    (month_number - 1) // 12
-)
-
-display_month = (
-    ((month_number - 1) % 12)
-    + 1
-)
-
-month_name = calendar.month_name[display_month]
-
-st.markdown(
-    f"## {month_name} {display_year}"
-)
-
-weekday_names = [
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat",
-    "Sun"
-]
-
-weekday_columns = st.columns(7)
-
-for i, day_name in enumerate(weekday_names):
-
-    weekday_columns[i].markdown(
-        f"""
-        <div class="weekday-header">
-            {day_name}
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.subheader(
+        f"{study_date.strftime('%B %d, %Y')}"
     )
+
+    st.write(
+        f"**{day_data['topic']}**"
+    )
+
+    for task_number, task_text in enumerate(
+        day_data["tasks"]
+    ):
+
+        checkbox_key = task_key(
+            study_date,
+            task_number
+        )
+
+        st.checkbox(
+            task_text,
+            key=checkbox_key
+        )
+
+    if is_topic_complete(study_date):
+        st.success("✅ Topic Complete")
 
 # ============================================================
 # CALENDAR GRID
