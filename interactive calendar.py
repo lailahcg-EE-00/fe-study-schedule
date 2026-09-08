@@ -513,4 +513,4 @@ def display_calendar_day(cell, display_date):
                 {display_date.day}
             </div>
             """,
-            unsafe_allow_html)
+            unsafe_allow_html=True
