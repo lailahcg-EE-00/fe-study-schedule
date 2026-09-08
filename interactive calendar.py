@@ -181,43 +181,6 @@ def generate_schedule():
 
     return schedule
 STUDY_SCHEDULE = generate_schedule()    
-# ============================================================
-# DATE SETTINGS
-# ============================================================
-
-# Uses the actual date reported by the Streamlit server.
-TODAY = datetime.date.today()
-
-# This lets you test rollover without waiting until tomorrow.
-# Set USE_TEST_DATE to True, then change TEST_DATE.
-USE_TEST_DATE = False
-TEST_DATE = datetime.date(2026, 9, 9)
-
-if USE_TEST_DATE:
-    TODAY = TEST_DATE
-
-
-# Determine which month should be shown.
-# During the schedule, show the current month.
-# Before the schedule starts, show the first schedule month.
-# After the schedule ends, show the last schedule month.
-
-schedule_dates = sorted(STUDY_SCHEDULE.keys())
-first_schedule_date = schedule_dates[0]
-last_schedule_date = schedule_dates[-1]
-
-if TODAY < first_schedule_date:
-    DISPLAY_YEAR = first_schedule_date.year
-    DISPLAY_MONTH = first_schedule_date.month
-
-elif TODAY > last_schedule_date:
-    DISPLAY_YEAR = last_schedule_date.year
-    DISPLAY_MONTH = last_schedule_date.month
-
-else:
-    DISPLAY_YEAR = TODAY.year
-    DISPLAY_MONTH = TODAY.month
-
 
 # ============================================================
 # CHECKBOX AND TASK FUNCTIONS
