@@ -1,7 +1,7 @@
 import streamlit as st
 import datetime
 import calendar
-
+st.write("APP IS RUNNING")
 
 # ============================================================
 # PAGE CONFIGURATION
