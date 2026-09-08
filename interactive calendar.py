@@ -644,11 +644,12 @@ for i, day_name in enumerate(weekday_names):
 # ============================================================
 # CALENDAR GRID
 # ============================================================
-
-# ============================================================
-# CALENDAR GRID
-# ============================================================
-
+month_calendar = calendar.Calendar(
+    firstweekday=calendar.MONDAY
+).monthdatescalendar(
+    DISPLAY_YEAR,
+    DISPLAY_MONTH
+)
 for week in month_calendar:
 
     cols = st.columns(7)
