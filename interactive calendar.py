@@ -180,7 +180,7 @@ def generate_schedule():
         )
 
     return schedule
-    
+STUDY_SCHEDULE = generate_schedule()    
 # ============================================================
 # DATE SETTINGS
 # ============================================================
