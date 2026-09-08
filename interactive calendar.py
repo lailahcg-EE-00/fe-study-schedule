@@ -1,7 +1,7 @@
 import streamlit as st
 import datetime
 import calendar
-st.write("APP IS RUNNING")
+
 
 # ============================================================
 # PAGE CONFIGURATION
@@ -18,7 +18,7 @@ st.set_page_config(
 # ============================================================
 # APPEARANCE
 # ============================================================
-st.write("APPEARANCE")
+
 st.markdown(
     """
     <style>
@@ -398,7 +398,7 @@ initialize_task_states()
 # ============================================================
 # CALENDAR DISPLAY FUNCTIONS
 # ============================================================
-
+st.write("CALENDAR DISPLAY")
 def display_regular_scheduled_tasks(
     cell,
     display_date,
