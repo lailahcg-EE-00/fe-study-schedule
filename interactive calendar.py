@@ -631,6 +631,3 @@ for week in month_calendar:
         st.success("✅ Topic Complete")
 st.markdown("---")
 
-if st.button("Reset Progress"):
-    reset_progress()
-    st.rerun()
