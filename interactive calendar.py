@@ -655,7 +655,9 @@ for week in month_calendar:
 
     for day_index, display_date in enumerate(week):
 
-        with cols[day_index_date.month != DISPLAY_MONTH:
+        with cols[day_index]:
+
+            if LAY_MONTH:
                 st.empty()
                 continue
 
@@ -683,4 +685,3 @@ st.markdown("---")
 if st.button("Reset Progress"):
     reset_progress()
     st.rerun()
-
