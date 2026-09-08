@@ -517,17 +517,15 @@ st.markdown(
 # PROGRESS SUMMARY
 # ============================================================
 
-completed_tasks = 0
-total_tasks = 0
+total_tasks = get_total_task_count()
+completed_tasks = get_completed_task_count()
 
-for key, value in st.session_state.items():
+remaining_tasks = total_tasks - completed_tasks
 
-    if key.startswith("task_"):
-
-        total_tasks += 1
-
-        if value:
-            completed_tasks += 1
+if total_tasks > 0:
+    completion_percentage = completed_tasks / total_tasks
+else:
+    completion_percentage = 0
 
 remaining_tasks = total_tasks - completed_tasks
 
