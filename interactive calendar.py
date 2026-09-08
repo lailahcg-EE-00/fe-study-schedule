@@ -398,7 +398,7 @@ initialize_task_states()
 # ============================================================
 # CALENDAR DISPLAY FUNCTIONS
 # ============================================================
-st.write("CALENDAR DISPLAY")
+
 def display_regular_scheduled_tasks(
     cell,
     display_date,
@@ -515,3 +515,151 @@ def display_calendar_day(cell, display_date):
             """,
             unsafe_allow_html=True
         )
+    # Past date:
+    if display_date < TODAY:
+
+        display_regular_scheduled_tasks(
+            cell=cell,
+            display_date=display_date,
+            disable_tasks=False
+        )
+
+    # Today:
+    elif display_date == TODAY:
+
+        display_regular_scheduled_tasks(
+            cell=cell,
+            display_date=display_date,
+            disable_tasks=False
+        )
+
+        display_rolled_tasks(cell)
+
+        if (
+            display_date not in STUDY_SCHEDULE
+            and not get_incomplete_overdue_tasks()
+        ):
+            cell.caption("No scheduled or overdue study items.")
+
+    # Future date:
+    else:
+
+        display_regular_scheduled_tasks(
+            cell=cell,
+            display_date=display_date,
+            disable_tasks=True
+        )
+
+        if display_date in STUDY_SCHEDULE:
+            cell.caption("Preview")
+
+# ============================================================
+# HEADER
+# ============================================================
+
+st.markdown(
+    """
+    <div class="tracker-title">
+        ⚡ FE Electrical Exam Study Calendar
+    </div>
+    <div class="tracker-subtitle">
+        Check off each action item as it is completed.
+        Unfinished past-due items automatically roll into today.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# ============================================================
+# PROGRESS SUMMARY
+# ============================================================
+
+total_tasks = get_total_task_count()
+completed_tasks = get_completed_task_count()
+remaining_tasks = total_tasks - completed_tasks
+overdue_tasks = get_incomplete_overdue_tasks()
+
+if total_tasks > 0:
+    completion_percentage = completed_tasks / total_tasks
+else:
+    completion_percentage = 0
+
+metric_columns = st.columns(4)
+
+metric_columns[0].metric(
+    "Completed",
+    completed_tasks
+)
+
+metric_columns[1].metric(
+    "Remaining",
+    remaining_tasks
+)
+
+metric_columns[2].metric(
+    "Rolled Into Today",
+    len(overdue_tasks)
+)
+
+metric_columns[3].metric(
+    "Progress",
+    f"{completion_percentage:.0%}"
+)
+
+st.progress(completion_percentage)
+
+st.markdown("---")
+
+# ============================================================
+# MONTH TITLE
+# ============================================================
+
+month_name = calendar.month_name[DISPLAY_MONTH]
+
+st.markdown(
+    f"## {month_name} {DISPLAY_YEAR}"
+)
+weekday_names = [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun"
+]
+
+weekday_columns = st.columns(7)
+
+for i, day_name in enumerate(weekday_names):
+    weekday_columns[i].markdown(
+        f"""
+        <div class="weekday-header">
+            {day_name}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# ============================================================
+# CALENDAR GRID
+# ============================================================
+
+month_calendar = calendar.Calendar(
+    firstweekday=calendar.MONDAY
+).monthdatescalendar(
+    DISPLAY_YEAR,
+    DISPLAY_MONTH
+)
+
+for week in month_calendar:
+
+    week_columns = st.columns(7)
+
+    for st.markdown("---")
+
+if st.button("Reset Progress"):
+
+    reset_progress()
+
+    st.rerun()
