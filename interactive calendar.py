@@ -658,7 +658,7 @@ for week in month_calendar:
 
         with cols[day_index]:
 
-            if LAY_MONTH:
+            if if display_date.month != DISPLAY_MONTH:
                 st.empty()
                 continue
 
