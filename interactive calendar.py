@@ -161,7 +161,7 @@ st.markdown(
 
 def generate_schedule():
 
-    start_date = datetime.date.today()
+    start_date = datetime.date(2026, 9, 8)
 
     schedule = {}
 
@@ -180,7 +180,6 @@ def generate_schedule():
         )
 
     return schedule
-STUDY_SCHEDULE = generate_schedule()
 # ============================================================
 # DATE SETTINGS
 # ============================================================
