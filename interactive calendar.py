@@ -423,6 +423,6 @@ for study_date in sorted(STUDY_SCHEDULE.keys()):
 
 save_progress()
 
-    if is_topic_complete(study_date):
+if is_topic_complete(study_date):
         st.success("✅ Topic Complete")
 
