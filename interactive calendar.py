@@ -4,9 +4,6 @@ import calendar
 
 from subjects import SUBJECTS
 
-def generate_schedule():
-    ...
-
 # ============================================================
 # PAGE CONFIGURATION
 # ============================================================
@@ -637,7 +634,6 @@ for week in month_calendar:
 
     if is_topic_complete(display_date):
         st.success("✅ Topic Complete")
-``
 st.markdown("---")
 
 if st.button("Reset Progress"):
