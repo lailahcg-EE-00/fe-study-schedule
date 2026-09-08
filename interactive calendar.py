@@ -641,7 +641,7 @@ for week in month_calendar:
 
     for day_index, display_date in enumerate(week):
 
-       with cols[day_index]: display_date.month != display_month:
+        with cols[day_index_date.month != display_month:
                 st.empty()
                 continue
 
@@ -669,11 +669,7 @@ for week in month_calendar:
                         key=checkbox_key
                     )
 
-                if is_topic_complete(
-                    display_date
-                ):
-                    st.success(
-                        "✅ Topic Complete"
-                    )
+                if is_topic_complete(display_date):
+                    st.success("✅ Topic Complete")
 
 st.markdown("---")
