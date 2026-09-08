@@ -653,7 +653,8 @@ for week in month_calendar:
             if display_date in STUDY_SCHEDULE:
                 st.write(
                     STUDY_SCHEDULE[display_date]["topic"]
-                )                for task_num, task in enumerate(
+                )                
+                for task_num, task in enumerate(
                     STUDY_SCHEDULE[display_date]["tasks"]
                 ):
 
