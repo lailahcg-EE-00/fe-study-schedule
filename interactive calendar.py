@@ -167,16 +167,16 @@ def generate_schedule():
 
     current_date = start_date
 
-    for subject in SUBJECTS:
+for subject in SUBJECTS:
 
-    schedule[current_date] = {
-        "topic": subject["topic"],
-        "tasks": subject["tasks"]
-    }
+    for _ in range(subject["days"]):
 
-    current_date += datetime.timedelta(
-        days=subject["days"]
-    )
+        schedule[current_date] = {
+            "topic": subject["topic"],
+            "tasks": subject["tasks"]
+        }
+
+        current_date += datetime.timedelta(days=1)
     return schedule
 STUDY_SCHEDULE = generate_schedule()
 # ============================================================
