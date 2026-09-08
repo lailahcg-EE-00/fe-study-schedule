@@ -251,6 +251,11 @@ def is_task_complete(original_date, task_number):
 
     key = task_key(original_date, task_number)
 
+    return st.session_state.get(
+        key,
+        False
+    )
+
 def is_topic_complete(original_date):
 
     if original_date not in STUDY_SCHEDULE:
