@@ -656,7 +656,7 @@ for week in month_calendar:
 
     week_columns = st.columns(7)
 
-    for st.markdown("---")
+    st.markdown("---")
 
 if st.button("Reset Progress"):
 
