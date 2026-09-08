@@ -616,22 +616,28 @@ for week in month_calendar:
             st.markdown(f"### {display_date.day}")
 
             if display_date in STUDY_SCHEDULE:
-
+            
                 st.write(
                     STUDY_SCHEDULE[display_date]["topic"]
                 )
-
+            
                 for task_num, task in enumerate(
                     STUDY_SCHEDULE[display_date]["tasks"]
                 ):
-
-                    key = f"{display_date}_{task_num}"
-
+            
+                    checkbox_key = task_key(
+                        display_date,
+                        task_num
+                    )
+            
                     st.checkbox(
                         task,
-                        key=key
+                        key=checkbox_key
                     )
 
+    if is_topic_complete(display_date):
+        st.success("✅ Topic Complete")
+``
 st.markdown("---")
 
 if st.button("Reset Progress"):
