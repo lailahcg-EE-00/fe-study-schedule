@@ -224,16 +224,13 @@ else:
 # CHECKBOX AND TASK FUNCTIONS
 # ============================================================
 
-def task_key(topic, task_number):
+def task_key(original_date, task_number):
 
-    topic = (
-        topic.lower()
-        .replace(" ", "_")
-        .replace("&", "and")
+    return (
+        f"task_"
+        f"{original_date.strftime('%Y_%m_%d')}_"
+        f"{task_number}"
     )
-
-    return f"{topic}_{task_number}"
-
 
 def initialize_task_states():
     """
