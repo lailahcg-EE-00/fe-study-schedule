@@ -654,10 +654,21 @@ month_calendar = calendar.Calendar(
 
 for week in month_calendar:
 
-    week_columns = st.columns(7)
+    cols = st.columns(7)
 
-    st.markdown("---")
+    for day_index, display_date in enumerate(week):
 
+        with cols[day_index]:
+
+            if display_date.month == DISPLAY_MONTHdown(
+                    f"### {display_date.day}"
+                )
+
+                if display_date in STUDY_SCHEDULE:
+
+                    st.write(
+                        STUDY_SCHEDULE[display_date]["topic"]
+                    )
 if st.button("Reset Progress"):
 
     reset_progress()
