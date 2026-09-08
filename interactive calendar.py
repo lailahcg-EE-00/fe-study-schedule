@@ -180,6 +180,7 @@ def generate_schedule():
         )
 
     return schedule
+    
 # ============================================================
 # DATE SETTINGS
 # ============================================================
@@ -516,17 +517,27 @@ st.markdown(
 # PROGRESS SUMMARY
 # ============================================================
 
-total_tasks = get_total_task_count()
-completed_tasks = get_completed_task_count()
+completed_tasks = 0
+total_tasks = 0
+
+for key, value in st.session_state.items():
+
+    if key.startswith("task_"):
+
+        total_tasks += 1
+
+        if value:
+            completed_tasks += 1
+
 remaining_tasks = total_tasks - completed_tasks
-overdue_tasks = get_incomplete_overdue_tasks()
 
-if total_tasks > 0:
-    completion_percentage = completed_tasks / total_tasks
-else:
-    completion_percentage = 0
+completion_percentage = (
+    completed_tasks / total_tasks
+    if total_tasks > 0
+    else 0
+)
 
-metric_columns = st.columns(4)
+metric_columns = st.columns(3)
 
 metric_columns[0].metric(
     "Completed",
@@ -539,11 +550,6 @@ metric_columns[1].metric(
 )
 
 metric_columns[2].metric(
-    "Rolled Into Today",
-    len(overdue_tasks)
-)
-
-metric_columns[3].metric(
     "Progress",
     f"{completion_percentage:.0%}"
 )
@@ -553,14 +559,48 @@ st.progress(completion_percentage)
 st.markdown("---")
 
 # ============================================================
-# MONTH TITLE
+# MONTH NAVIGATION
 # ============================================================
 
-month_name = calendar.month_name[DISPLAY_MONTH]
+if "month_offset" not in st.session_state:
+    st.session_state.month_offset = 0
+
+nav1, nav2, nav3 = st.columns([1, 3, 1])
+
+with nav1:
+    if st.button("◀ Previous"):
+        st.session_state.month_offset -= 1
+
+with nav3:
+    if st.button("Next ▶"):
+        st.session_state.month_offset += 1
+
+base_date = datetime.date(
+    DISPLAY_YEAR,
+    DISPLAY_MONTH,
+    1
+)
+
+month_number = (
+    base_date.month
+    + st.session_state.month_offset
+)
+
+display_year = base_date.year + (
+    (month_number - 1) // 12
+)
+
+display_month = (
+    ((month_number - 1) % 12)
+    + 1
+)
+
+month_name = calendar.month_name[display_month]
 
 st.markdown(
-    f"## {month_name} {DISPLAY_YEAR}"
+    f"## {month_name} {display_year}"
 )
+
 weekday_names = [
     "Mon",
     "Tue",
@@ -574,6 +614,7 @@ weekday_names = [
 weekday_columns = st.columns(7)
 
 for i, day_name in enumerate(weekday_names):
+
     weekday_columns[i].markdown(
         f"""
         <div class="weekday-header">
@@ -586,47 +627,53 @@ for i, day_name in enumerate(weekday_names):
 # ============================================================
 # CALENDAR GRID
 # ============================================================
+
 month_calendar = calendar.Calendar(
     firstweekday=calendar.MONDAY
 ).monthdatescalendar(
-    DISPLAY_YEAR,
-    DISPLAY_MONTH
+    display_year,
+    display_month
 )
+
 for week in month_calendar:
 
     cols = st.columns(7)
 
     for day_index, display_date in enumerate(week):
 
-        with cols[day_index]:
-
-            if display_date.month != DISPLAY_MONTH:
+        with colsif display_date.month != display_month:
                 st.empty()
                 continue
 
-            st.markdown(f"### {display_date.day}")
+            st.markdown(
+                f"### {display_date.day}"
+            )
 
             if display_date in STUDY_SCHEDULE:
-            
+
                 st.write(
                     STUDY_SCHEDULE[display_date]["topic"]
                 )
-            
+
                 for task_num, task in enumerate(
                     STUDY_SCHEDULE[display_date]["tasks"]
                 ):
-            
+
                     checkbox_key = task_key(
                         display_date,
                         task_num
                     )
-            
+
                     st.checkbox(
                         task,
                         key=checkbox_key
                     )
 
-    if is_topic_complete(display_date):
-        st.success("✅ Topic Complete")
-st.markdown("---")
+                if is_topic_complete(
+                    display_date
+                ):
+                    st.success(
+                        "✅ Topic Complete"
+                    )
 
+st.markdown("---")
