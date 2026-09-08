@@ -1,3 +1,5 @@
+import json
+import os
 import streamlit as st
 import datetime
 import calendar
@@ -181,7 +183,27 @@ def generate_schedule():
 
     return schedule
 STUDY_SCHEDULE = generate_schedule()    
+def load_progress():
 
+    if os.path.exists("progress.json"):
+
+        with open("progress.json", "r") as f:
+            return json.load(f)
+
+    return {}
+
+
+def save_progress():
+
+    progress = {}
+
+    for key, value in st.session_state.items():
+
+        if key.startswith("task_"):
+            progress[key] = value
+
+    with open("progress.json", "w") as f:
+        json.dump(progress, f)
 # ============================================================
 # CHECKBOX AND TASK FUNCTIONS
 # ============================================================
@@ -395,9 +417,11 @@ for study_date in sorted(STUDY_SCHEDULE.keys()):
         )
 
         st.checkbox(
-            task_text,
-            key=checkbox_key
-        )
+    task_text,
+    key=checkbox_key
+)
+
+save_progress()
 
     if is_topic_complete(study_date):
         st.success("✅ Topic Complete")
