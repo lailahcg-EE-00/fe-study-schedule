@@ -169,15 +169,14 @@ def generate_schedule():
 
     for subject in SUBJECTS:
 
-        for _ in range(subject["days"]):
+    schedule[current_date] = {
+        "topic": subject["topic"],
+        "tasks": subject["tasks"]
+    }
 
-            schedule[current_date] = {
-                "topic": subject["topic"],
-                "tasks": subject["tasks"]
-            }
-
-            current_date += datetime.timedelta(days=1)
-
+    current_date += datetime.timedelta(
+        days=subject["days"]
+    )
     return schedule
 STUDY_SCHEDULE = generate_schedule()
 # ============================================================
@@ -222,21 +221,15 @@ else:
 # CHECKBOX AND TASK FUNCTIONS
 # ============================================================
 
-def task_key(original_date, task_number):
-    """
-    Produces one permanent identity for each action item.
+def task_key(topic, task_number):
 
-    The identity uses the task's originally scheduled date rather
-    than the date on which the task is currently displayed.
-
-    This is important because a task may roll forward to today,
-    but it must retain the same checkbox value.
-    """
-    return (
-        f"task_"
-        f"{original_date.strftime('%Y_%m_%d')}_"
-        f"{task_number}"
+    topic = (
+        topic.lower()
+        .replace(" ", "_")
+        .replace("&", "and")
     )
+
+    return f"{topic}_{task_number}"
 
 
 def initialize_task_states():
@@ -253,17 +246,17 @@ def initialize_task_states():
 
 
 def is_task_complete(original_date, task_number):
-    """
-    Returns whether one specific action item is complete.
-    """
-    key = task_key(original_date, task_number)
-    return st.session_state.get(key, False)
 
+    if original_date not in STUDY_SCHEDULE:
+        return False
+
+    key = task_key(original_date, task_number)
 
 def is_topic_complete(original_date):
-    """
-    A topic is complete only when all its action items are checked.
-    """
+
+    if original_date not in STUDY_SCHEDULE:
+        return False
+
     day_data = STUDY_SCHEDULE[original_date]
 
     return all(
@@ -373,7 +366,10 @@ def display_regular_scheduled_tasks(
     )
 
     for task_number, task_text in enumerate(day_data["tasks"]):
-        key = task_key(display_date, task_number)
+        key = task_key(
+    STUDY_SCHEDULE[display_date]["topic"],
+    task_num
+)
 
         cell.checkbox(
             task_text,
