@@ -641,8 +641,7 @@ for week in month_calendar:
 
     for day_index, display_date in enumerate(week):
 
-            with cols[day_index]:
-            if display_date.month != display_month:
+        with colsif display_date.month != display_month:
                 st.empty()
                 continue
 
@@ -651,12 +650,9 @@ for week in month_calendar:
             )
 
             if display_date in STUDY_SCHEDULE:
-
                 st.write(
                     STUDY_SCHEDULE[display_date]["topic"]
-                )
-
-                for task_num, task in enumerate(
+                )                for task_num, task in enumerate(
                     STUDY_SCHEDULE[display_date]["tasks"]
                 ):
 
