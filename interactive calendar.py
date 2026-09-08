@@ -645,6 +645,10 @@ for i, day_name in enumerate(weekday_names):
 # CALENDAR GRID
 # ============================================================
 
+# ============================================================
+# CALENDAR GRID
+# ============================================================
+
 month_calendar = calendar.Calendar(
     firstweekday=calendar.MONDAY
 ).monthdatescalendar(
@@ -660,17 +664,34 @@ for week in month_calendar:
 
         with cols[day_index]:
 
-            if display_date.month == DISPLAY_MONTHdown(
-                    f"### {display_date.day}"
+   ide current month
+            if display_date.month != DISPLAY_MONTH:
+                st.empty()
+                continue
+
+            st.markdown(
+                f"### {display_date.day}"
+            )
+
+            if display_date in STUDY_SCHEDULE:
+
+                st.write(
+                    STUDY_SCHEDULE[display_date]["topic"]
                 )
 
-                if display_date in STUDY_SCHEDULE:
+                for task_num, task in enumerate(
+                    STUDY_SCHEDULE[display_date]["tasks"]
+                ):
 
-                    st.write(
-                        STUDY_SCHEDULE[display_date]["topic"]
+                    key = f"{display_date}_{task_num}"
+
+                    st.checkbox(
+                        task,
+                        key=key
                     )
+
+st.markdown("---")
+
 if st.button("Reset Progress"):
-
     reset_progress()
-
     st.rerun()
