@@ -2,6 +2,10 @@ import streamlit as st
 import datetime
 import calendar
 
+from subjects import SUBJECTS
+
+def generate_schedule():
+    ...
 
 # ============================================================
 # PAGE CONFIGURATION
@@ -158,79 +162,26 @@ st.markdown(
 # FE ELECTRICAL STUDY SCHEDULE
 # ============================================================
 
-STUDY_SCHEDULE = {
-    datetime.date(2026, 9, 8): {
-        "topic": "Mathematics & Professional Practice",
-        "tasks": [
-            "Review Analytic Geometry & Calculus formulas",
-            "Practice Vector Analysis problems",
-            "Study NCEES Ethics, Liability, and contract rules"
-        ]
-    },
+def generate_schedule():
 
-    datetime.date(2026, 9, 9): {
-        "topic": "Probability, Statistics & Engineering Economics",
-        "tasks": [
-            "Practice Mean, Variance, and Normal Distributions",
-            "Solve Time Value of Money problems"
-        ]
-    },
+    start_date = datetime.date.today()
 
-    datetime.date(2026, 9, 10): {
-        "topic": "Properties of Electrical Materials",
-        "tasks": [
-            "Review XLPE & Thermoset wire insulation specs",
-            "Practice Semiconductor physics",
-            "Review chemical material properties"
-        ]
-    },
+    schedule = {}
 
-    datetime.date(2026, 9, 11): {
-        "topic": "Circuit Analysis: DC & AC Steady State",
-        "tasks": [
-            "Solve KCL/KVL Node & Mesh equations",
-            "Practice Thevenin/Norton Equivalent circuits",
-            "Calculate AC Impedance & Phasors"
-        ]
-    },
+    current_date = start_date
 
-    datetime.date(2026, 9, 12): {
-        "topic": "Circuit Analysis: Transient & Three-Phase",
-        "tasks": [
-            "Review First-Order RL/RC Transient responses",
-            "Calculate Balanced Three-Phase Power",
-            "Review Delta/Wye junctions"
-        ]
-    },
+    for subject in SUBJECTS:
 
-    datetime.date(2026, 9, 14): {
-        "topic": "Linear Systems & Signal Processing",
-        "tasks": [
-            "Practice Continuous-time Convolution",
-            "Review Laplace & Fourier Transform mappings",
-            "Review Nyquist sampling criteria"
-        ]
-    },
+        for _ in range(subject["days"]):
 
-    datetime.date(2026, 9, 15): {
-        "topic": "Electronics",
-        "tasks": [
-            "Analyze Ideal & Non-Ideal Op-Amp configurations",
-            "Solve Diode circuits",
-            "Study BJT/FET bias states and switching thresholds"
-        ]
-    },
+            schedule[current_date] = {
+                "topic": subject["topic"],
+                "tasks": subject["tasks"]
+            }
 
-    datetime.date(2026, 9, 16): {
-        "topic": "Power Systems",
-        "tasks": [
-            "Practice Power Factor correction calculations",
-            "Review Transformer equivalent circuits",
-            "Solve Transmission line model equations"
-        ]
-    }
-}
+            current_date += datetime.timedelta(days=1)
 
+    return schedule
 
 # ============================================================
 # DATE SETTINGS
