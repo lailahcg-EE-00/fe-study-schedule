@@ -649,29 +649,17 @@ for i, day_name in enumerate(weekday_names):
 # CALENDAR GRID
 # ============================================================
 
-month_calendar = calendar.Calendar(
-    firstweekday=calendar.MONDAY
-).monthdatescalendar(
-    DISPLAY_YEAR,
-    DISPLAY_MONTH
-)
-
 for week in month_calendar:
 
     cols = st.columns(7)
 
     for day_index, display_date in enumerate(week):
 
-        with cols[day_index]:
-
-   ide current month
-            if display_date.month != DISPLAY_MONTH:
+        with cols[day_index_date.month != DISPLAY_MONTH:
                 st.empty()
                 continue
 
-            st.markdown(
-                f"### {display_date.day}"
-            )
+            st.markdown(f"### {display_date.day}")
 
             if display_date in STUDY_SCHEDULE:
 
@@ -695,3 +683,4 @@ st.markdown("---")
 if st.button("Reset Progress"):
     reset_progress()
     st.rerun()
+
