@@ -182,7 +182,7 @@ def generate_schedule():
             current_date += datetime.timedelta(days=1)
 
     return schedule
-
+STUDY_SCHEDULE = generate_schedule()
 # ============================================================
 # DATE SETTINGS
 # ============================================================
